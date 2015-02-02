@@ -248,7 +248,10 @@ public class Snake : MonoBehaviour
         counter.text = "Fail";
 
         counter.transform.localScale = _textScale;
-        PlayerPrefs.SetInt( "score", _score );
+        int bestScore = PlayerPrefs.GetInt( "score" );
+        if ( _score > bestScore ) {
+            PlayerPrefs.SetInt( "score", _score );
+        }
 
         AudioPlayer.Instance.PlayAtMainCamera( failSound );
 
