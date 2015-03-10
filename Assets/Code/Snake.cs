@@ -140,19 +140,6 @@ public class Snake : MonoBehaviour
 
         counter.text = _score.ToString();
 
-        iTween.ScaleTo( coll.gameObject, new Hashtable {
-            { "scale", 3f * coll.transform.localScale },
-            { "time", 1f },
-        } );
-
-        iTween.ColorTo( coll.gameObject, new Hashtable {
-            { "r", 2f * coll.gameObject.renderer.material.color.r },
-            { "g", 2f * coll.gameObject.renderer.material.color.g },
-            { "b", 2f * coll.gameObject.renderer.material.color.b },
-            { "a", 0f },
-            { "time", 0.4f }
-        } );
-
         Destroy( coll.gameObject, 1f );
     }
 
