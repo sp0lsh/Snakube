@@ -21,12 +21,6 @@ public class Snake : MonoBehaviour
     List<Transform> _tail = new List<Transform>();
     
     Vector3 _textScale;
-    int _startTextIndex;
-    string[] _startText = new[] {
-        "[Press any key]",
-        "I dare you!",
-        "more than",
-    };
 
 
     void Start() {
@@ -45,22 +39,7 @@ public class Snake : MonoBehaviour
             { "looptype", iTween.LoopType.pingPong }
         } );
 
-        Invoke( "ChangeStartText", 2f );
-    }
-
-    void ChangeStartText() {
-
-        ++_startTextIndex;
-
-        if ( _startTextIndex == _startText.Length ) {
-            pressKey.text = PlayerPrefs.GetInt( "score" ) + " pts";
-            _startTextIndex = -1;
-
-        } else {
-            pressKey.text = _startText[_startTextIndex];
-        }
-
-        Invoke( "ChangeStartText", 2f );
+        pressKey.text = PlayerPrefs.GetInt( "score" ) + " pts";
     }
 
     void OnTriggerEnter( Collider coll ) {
