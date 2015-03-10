@@ -6,117 +6,86 @@ using System.Linq;
 
 public class Snake : MonoBehaviour
 {
-    
-    public TextMesh pressKey;
+
     public TextMesh counter;
     public float moveSpeed = 0.1f;
     public float moveSpeedAccel = 0.01f;
     public GameObject tailPrefab;
     public GameObject foodPrefab;
 
-    bool _inputEnabled;
     int _score;
     bool _papu;
     Vector2 _snakeDir = Vector2.right;
     List<Transform> _tail = new List<Transform>();
-    
+
     Vector3 _textScale;
 
 
     void Start() {
-
-        _textScale = counter.transform.localScale;
-
-        iTween.ScaleTo( pressKey.gameObject, new Hashtable {
-            { "scale", 1.5f * pressKey.transform.localScale },
-            { "time", 1f },
-            { "looptype", iTween.LoopType.pingPong },
-        } );
-
-        iTween.ColorTo( pressKey.gameObject, new Hashtable {
-            { "color", 1.5f * pressKey.color },
-            { "time", 1f },
-            { "looptype", iTween.LoopType.pingPong }
-        } );
-
-        pressKey.text = PlayerPrefs.GetInt( "score" ) + " pts";
+        OnStartGame();
     }
 
     void OnTriggerEnter( Collider coll ) {
 
-        if ( _inputEnabled ) {
-            if ( coll.gameObject.tag == "Food" ) {
+        if ( coll.gameObject.tag == "Food" ) {
 
-                OnFoodCollected( coll );
-            }
+            OnFoodCollected( coll );
         }
     }
 
     void OnCollisionEnter( Collision coll ) {
 
-        if ( _inputEnabled ) {
-            if ( coll.gameObject.tag == "Wall"
-                || coll.gameObject.tag == "Tail" ) {
+        if ( coll.gameObject.tag == "Wall"
+            || coll.gameObject.tag == "Tail" ) {
 
-                OnFail();
-            }
+            OnFail();
         }
     }
 
     void Update() {
 
-        if ( _inputEnabled ) {
 
-            if ( Input.GetKey( KeyCode.W ) || Input.GetKey( KeyCode.UpArrow ) ) {
-                if ( _snakeDir != -Vector2.up ) {
-                    _snakeDir = Vector2.up;
-                }
-            }
-
-            if ( Input.GetKey( KeyCode.A ) || Input.GetKey( KeyCode.LeftArrow ) ) {
-                if ( _snakeDir != Vector2.right ) {
-                    _snakeDir = -Vector2.right;
-                }
-            }
-
-            if ( Input.GetKey( KeyCode.D ) || Input.GetKey( KeyCode.RightArrow ) ) {
-                if ( _snakeDir != -Vector2.right ) {
-                    _snakeDir = Vector2.right;
-                }
-            }
-
-            if ( Input.GetKey( KeyCode.S ) || Input.GetKey( KeyCode.DownArrow ) ) {
-                if ( _snakeDir != Vector2.up ) {
-                    _snakeDir = -Vector2.up;
-                }
-            }
-
-        } else {
-
-            if ( Input.anyKeyDown ) {
-                _inputEnabled = true;
-                OnStartGame();
+        if ( Input.GetKey( KeyCode.W ) || Input.GetKey( KeyCode.UpArrow ) ) {
+            if ( _snakeDir != -Vector2.up ) {
+                _snakeDir = Vector2.up;
             }
         }
+
+        if ( Input.GetKey( KeyCode.A ) || Input.GetKey( KeyCode.LeftArrow ) ) {
+            if ( _snakeDir != Vector2.right ) {
+                _snakeDir = -Vector2.right;
+            }
+        }
+
+        if ( Input.GetKey( KeyCode.D ) || Input.GetKey( KeyCode.RightArrow ) ) {
+            if ( _snakeDir != -Vector2.right ) {
+                _snakeDir = Vector2.right;
+            }
+        }
+
+        if ( Input.GetKey( KeyCode.S ) || Input.GetKey( KeyCode.DownArrow ) ) {
+            if ( _snakeDir != Vector2.up ) {
+                _snakeDir = -Vector2.up;
+            }
+        }
+
     }
 
     void Move() {
 
-        if ( _inputEnabled ) {
 
-            Vector2 wektor = transform.position;
-            transform.Translate( _snakeDir );
+        Vector2 wektor = transform.position;
+        transform.Translate( _snakeDir );
 
-            if ( _papu ) {
-                GameObject g = Instantiate( tailPrefab, wektor, Quaternion.identity ) as GameObject;
-                _tail.Insert( 0, g.transform );
-                _papu = false;
+        if ( _papu ) {
+            GameObject g = Instantiate( tailPrefab, wektor, Quaternion.identity ) as GameObject;
+            _tail.Insert( 0, g.transform );
+            _papu = false;
 
-            } else if ( _tail.Count > 0 ) {
-                _tail.Last().position = wektor;
-                _tail.Insert( 0, _tail.Last() );
-                _tail.RemoveAt( _tail.Count - 1 );
-            }
+        } else if ( _tail.Count > 0 ) {
+            _tail.Last().position = wektor;
+            _tail.Insert( 0, _tail.Last() );
+            _tail.RemoveAt( _tail.Count - 1 );
         }
 
         Invoke( "Move", moveSpeed );
@@ -138,7 +107,7 @@ public class Snake : MonoBehaviour
         } );
 
         iTween.ColorTo( newFood.gameObject, new Hashtable {
-            { "color", 1.5f * pressKey.color },
+            { "color", 1.5f * newFood.renderer.material.color },
             { "time", 1f },
             { "looptype", iTween.LoopType.pingPong }
         } );
@@ -148,7 +117,6 @@ public class Snake : MonoBehaviour
 
         counter.transform.localScale *= 1.5f;
         counter.text = "0";
-        pressKey.gameObject.SetActive( false );
 
         SpawnFood();
         Invoke( "Move", moveSpeed );
@@ -216,7 +184,6 @@ public class Snake : MonoBehaviour
 
     void OnFail() {
 
-        _inputEnabled = false;
         counter.text = "Fail";
 
         counter.transform.localScale = _textScale;
