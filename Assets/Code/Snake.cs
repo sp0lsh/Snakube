@@ -122,13 +122,10 @@ public class Snake : MonoBehaviour
         _papu = true;
 
         SpawnFood();
-        if ( Random.value > 0.99 ) {
-            SpawnFood();
-        }
 
         counter.text = _score.ToString();
 
-        Destroy( coll.gameObject, 1f );
+        Destroy( coll.gameObject );
     }
 
     void OnFail() {
