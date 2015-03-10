@@ -6,9 +6,7 @@ using System.Linq;
 
 public class Snake : MonoBehaviour
 {
-    public AudioClip failSound;
-    public AudioClip pickupSound;
-    public AudioClip themeSound;
+    
     public TextMesh pressKey;
     public TextMesh counter;
     public float moveSpeed = 0.1f;
@@ -176,10 +174,6 @@ public class Snake : MonoBehaviour
         SpawnFood();
         Invoke( "Move", moveSpeed );
 
-        AudioPlayer.Instance.PlayAtMainCamera( themeSound,
-            volume: 0.7f,
-            autoDestroy: false
-        ).loop = true;
     }
 
     void OnFoodCollected( Collider coll ) {
@@ -196,7 +190,6 @@ public class Snake : MonoBehaviour
             SpawnFood();
         }
 
-        AudioPlayer.Instance.PlayAtMainCamera( pickupSound );
         CounterTextEffect();
 
         iTween.ScaleTo( coll.gameObject, new Hashtable {
@@ -252,8 +245,6 @@ public class Snake : MonoBehaviour
         if ( _score > bestScore ) {
             PlayerPrefs.SetInt( "score", _score );
         }
-
-        AudioPlayer.Instance.PlayAtMainCamera( failSound );
 
         GameObject tmpHead = GameObject.Instantiate( tailPrefab, transform.position, Quaternion.identity ) as GameObject;
 
