@@ -100,6 +100,7 @@ public class Snake : MonoBehaviour
         );
 
         GameObject newFood = Instantiate( foodPrefab, randomFoodPos, Quaternion.identity ) as GameObject;
+
         iTween.ScaleTo( newFood.gameObject, new Hashtable {
             { "scale", 1.5f * newFood.transform.localScale },
             { "time", 1f },
@@ -188,25 +189,7 @@ public class Snake : MonoBehaviour
 
         counter.transform.localScale = _textScale;
 
-        GameObject tmpHead = GameObject.Instantiate( tailPrefab, transform.position, Quaternion.identity ) as GameObject;
-
-        iTween.ScaleTo( tmpHead, new Hashtable {
-            { "scale", 5f  * transform.localScale },
-            { "time", 1f },
-        } );
-
-        iTween.ColorTo( tmpHead, new Hashtable {
-            { "r", 2f * tmpHead.gameObject.renderer.material.color.r },
-            { "g", 2f * tmpHead.gameObject.renderer.material.color.g },
-            { "b", 2f * tmpHead.gameObject.renderer.material.color.b },
-            { "a", 0f },
-            { "time", 0.5f }
-        } );
-
-        _tail.ForEach( t => iTween.ScaleTo( t.gameObject, new Hashtable {
-            { "scale", 0.01f * Vector3.one },
-            { "time", 1f },
-        } ) );
+        Debug.Log( "Fail" );
 
         Invoke( "Reload", 1f );
     }
