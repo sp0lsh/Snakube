@@ -9,7 +9,6 @@ public class Snake : MonoBehaviour
 
     public TextMesh counter;
     public float moveSpeed = 0.1f;
-    public float moveSpeedAccel = 0.01f;
     public GameObject tailPrefab;
     public GameObject foodPrefab;
 
@@ -17,8 +16,6 @@ public class Snake : MonoBehaviour
     bool _papu;
     Vector2 _snakeDir = Vector2.right;
     List<Transform> _tail = new List<Transform>();
-
-    Vector3 _textScale;
 
 
     void Start() {
@@ -44,7 +41,6 @@ public class Snake : MonoBehaviour
 
     void Update() {
 
-
         if ( Input.GetKey( KeyCode.W ) || Input.GetKey( KeyCode.UpArrow ) ) {
             if ( _snakeDir != -Vector2.up ) {
                 _snakeDir = Vector2.up;
@@ -68,11 +64,9 @@ public class Snake : MonoBehaviour
                 _snakeDir = -Vector2.up;
             }
         }
-
     }
 
     void Move() {
-
 
         Vector2 wektor = transform.position;
         transform.Translate( _snakeDir );
@@ -87,8 +81,6 @@ public class Snake : MonoBehaviour
             _tail.Insert( 0, _tail.Last() );
             _tail.RemoveAt( _tail.Count - 1 );
         }
-
-        Invoke( "Move", moveSpeed );
     }
 
     void SpawnFood() {
@@ -108,8 +100,7 @@ public class Snake : MonoBehaviour
         counter.text = "0";
 
         SpawnFood();
-        Invoke( "Move", moveSpeed );
-
+        InvokeRepeating( "Move", moveSpeed, moveSpeed );
     }
 
     void OnFoodCollected( Collider coll ) {
@@ -118,7 +109,6 @@ public class Snake : MonoBehaviour
 
         _score++;
         counter.text = _score.ToString();
-        moveSpeed -= moveSpeedAccel;
         _papu = true;
 
         SpawnFood();
@@ -131,12 +121,9 @@ public class Snake : MonoBehaviour
     void OnFail() {
 
         counter.text = "Fail";
-
-        counter.transform.localScale = _textScale;
-
         Debug.Log( "Fail" );
 
-        Invoke( "Reload", 1f );
+        Reload();
     }
 
     void Reload() {
