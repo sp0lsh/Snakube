@@ -36,10 +36,11 @@ public class Snake : MonoBehaviour
 
     void OnCollisionEnter( Collision coll ) {
 
-        if ( coll.gameObject.tag == "Wall"
-            || coll.gameObject.tag == "Tail" ) {
+        if ( coll.gameObject.tag == "Tail" ) {
 
-            OnFail();
+            Debug.Log( "Fail" );
+
+            Application.LoadLevel( Application.loadedLevel );
         }
     }
 
@@ -90,18 +91,11 @@ public class Snake : MonoBehaviour
     void SpawnFood() {
 
         Vector3 randomFoodPos = new Vector3(
-            (int)( AdjustWalls.bounds.x - 3f ) * 2f * ( Random.value - 0.5f ),
-            (int)( AdjustWalls.bounds.y - 3f ) * 2f * ( Random.value - 0.5f ),
+            (int)( 5f * 2f * ( Random.value - 0.5f )),
+            (int)( 5f * 2f * ( Random.value - 0.5f )),
             0f
         );
 
         GameObject newFood = Instantiate( foodPrefab, randomFoodPos, Quaternion.identity ) as GameObject;
-    }
-
-    void OnFail() {
-
-        Debug.Log( "Fail" );
-
-        Application.LoadLevel( Application.loadedLevel );
     }
 }
