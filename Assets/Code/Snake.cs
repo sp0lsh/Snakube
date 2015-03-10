@@ -100,18 +100,6 @@ public class Snake : MonoBehaviour
         );
 
         GameObject newFood = Instantiate( foodPrefab, randomFoodPos, Quaternion.identity ) as GameObject;
-
-        iTween.ScaleTo( newFood.gameObject, new Hashtable {
-            { "scale", 1.5f * newFood.transform.localScale },
-            { "time", 1f },
-            { "looptype", iTween.LoopType.pingPong }
-        } );
-
-        iTween.ColorTo( newFood.gameObject, new Hashtable {
-            { "color", 1.5f * newFood.renderer.material.color },
-            { "time", 1f },
-            { "looptype", iTween.LoopType.pingPong }
-        } );
     }
 
     void OnStartGame() {
