@@ -138,7 +138,7 @@ public class Snake : MonoBehaviour
             SpawnFood();
         }
 
-        CounterTextEffect();
+        counter.text = _score.ToString();
 
         iTween.ScaleTo( coll.gameObject, new Hashtable {
             { "scale", 3f * coll.transform.localScale },
@@ -154,33 +154,6 @@ public class Snake : MonoBehaviour
         } );
 
         Destroy( coll.gameObject, 1f );
-    }
-
-    void CounterTextEffect() {
-
-        GameObject textEffect = GameObject.Instantiate( counter.gameObject, counter.transform.position, Quaternion.identity ) as GameObject;
-        TextMesh effectText = textEffect.GetComponent<TextMesh>();
-        effectText.text = _score.ToString();
-
-        iTween.ScaleTo( textEffect.gameObject, new Hashtable {
-            { "scale", 3f * counter.transform.localScale },
-            { "time", 0.4f },
-        } );
-
-        iTween.ColorTo( textEffect.gameObject, new Hashtable {
-            //{ "r", 2f * pressKey.color.r },
-            //{ "g", 2f * pressKey.color.g },
-            //{ "b", 2f * pressKey.color.b },
-
-            { "r", 1f },
-            { "g", 1f },
-            { "b", 1f },
-
-            { "a", 0f },
-            { "time", 0.4f }
-        } );
-
-        Destroy( textEffect, 0.4f );
     }
 
     void OnFail() {
