@@ -7,12 +7,10 @@ using System.Linq;
 public class Snake : MonoBehaviour
 {
 
-    public TextMesh counter;
     public float moveSpeed = 0.1f;
     public GameObject tailPrefab;
     public GameObject foodPrefab;
 
-    int _score;
     bool _papu;
     Vector2 _snakeDir = Vector2.right;
     List<Transform> _tail = new List<Transform>();
@@ -96,31 +94,21 @@ public class Snake : MonoBehaviour
 
     void OnStartGame() {
 
-        counter.transform.localScale *= 1.5f;
-        counter.text = "0";
-
         SpawnFood();
         InvokeRepeating( "Move", moveSpeed, moveSpeed );
     }
 
     void OnFoodCollected( Collider coll ) {
 
-        coll.enabled = false;
+        Debug.Log( "Food collected" );
 
-        _score++;
-        counter.text = _score.ToString();
         _papu = true;
-
         SpawnFood();
-
-        counter.text = _score.ToString();
-
         Destroy( coll.gameObject );
     }
 
     void OnFail() {
 
-        counter.text = "Fail";
         Debug.Log( "Fail" );
 
         Reload();
