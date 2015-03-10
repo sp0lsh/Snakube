@@ -187,10 +187,6 @@ public class Snake : MonoBehaviour
         counter.text = "Fail";
 
         counter.transform.localScale = _textScale;
-        int bestScore = PlayerPrefs.GetInt( "score" );
-        if ( _score > bestScore ) {
-            PlayerPrefs.SetInt( "score", _score );
-        }
 
         GameObject tmpHead = GameObject.Instantiate( tailPrefab, transform.position, Quaternion.identity ) as GameObject;
 
