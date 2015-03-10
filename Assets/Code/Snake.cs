@@ -17,14 +17,20 @@ public class Snake : MonoBehaviour
 
 
     void Start() {
-        OnStartGame();
+
+        SpawnFood();
+        InvokeRepeating( "Move", moveSpeed, moveSpeed );
     }
 
     void OnTriggerEnter( Collider coll ) {
 
         if ( coll.gameObject.tag == "Food" ) {
 
-            OnFoodCollected( coll );
+            Debug.Log( "Food collected" );
+
+            _papu = true;
+            SpawnFood();
+            Destroy( coll.gameObject );
         }
     }
 
@@ -92,29 +98,9 @@ public class Snake : MonoBehaviour
         GameObject newFood = Instantiate( foodPrefab, randomFoodPos, Quaternion.identity ) as GameObject;
     }
 
-    void OnStartGame() {
-
-        SpawnFood();
-        InvokeRepeating( "Move", moveSpeed, moveSpeed );
-    }
-
-    void OnFoodCollected( Collider coll ) {
-
-        Debug.Log( "Food collected" );
-
-        _papu = true;
-        SpawnFood();
-        Destroy( coll.gameObject );
-    }
-
     void OnFail() {
 
         Debug.Log( "Fail" );
-
-        Reload();
-    }
-
-    void Reload() {
 
         Application.LoadLevel( Application.loadedLevel );
     }
