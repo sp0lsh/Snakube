@@ -13,7 +13,6 @@ public class Snake : MonoBehaviour
 
     bool _papu;
     Vector2 _snakeDir = Vector2.right;
-    List<Transform> _tail = new List<Transform>();
 
 
     void Start() {
@@ -39,7 +38,7 @@ public class Snake : MonoBehaviour
         if ( coll.gameObject.tag == "Tail" ) {
 
             Debug.Log( "Fail" );
-
+            
             Application.LoadLevel( Application.loadedLevel );
         }
     }
@@ -75,17 +74,6 @@ public class Snake : MonoBehaviour
 
         Vector2 wektor = transform.position;
         transform.Translate( _snakeDir );
-
-        if ( _papu ) {
-            GameObject g = Instantiate( tailPrefab, wektor, Quaternion.identity ) as GameObject;
-            _tail.Insert( 0, g.transform );
-            _papu = false;
-
-        } else if ( _tail.Count > 0 ) {
-            _tail.Last().position = wektor;
-            _tail.Insert( 0, _tail.Last() );
-            _tail.RemoveAt( _tail.Count - 1 );
-        }
     }
 
     void SpawnFood() {
