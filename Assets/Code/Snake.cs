@@ -8,7 +8,6 @@ public class Snake : MonoBehaviour
 {
 
     public float moveSpeed = 0.1f;
-    public GameObject tailPrefab;
     public GameObject foodPrefab;
 
     bool _papu;
